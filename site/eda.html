@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Anomalous Battery Cells – 3 Exploratory Data Analysis</title>
+  <title>EIS Framework – 3 Clustering and Anomaly Detection</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <link rel="stylesheet" href="../css/custom_style.css" />
 </head>
 
 <body class="nav-sidebar theme-light"
       data-page="eda"
-      data-crumb="3 Exploratory Data Analysis">
+      data-crumb="3 Clustering and Anomaly Detection">
 
   <div id="site-header-placeholder"></div>
 
@@ -19,84 +19,62 @@
     <main id="content">
       <article class="article">
         <header class="article-header">
-          <h1>Exploring behavioural signals</h1>
+          <h1>Page 3 – Clustering and Anomaly Detection</h1>
           <div class="article-meta">
-            <div><strong>Lead analyst:</strong> Priya Chen</div>
-            <div><strong>Status:</strong> In progress</div>
+            <div><strong>Embedding source:</strong> CNN latent space &amp; UMAP projections</div>
+            <div><strong>Objectives:</strong> Group discovery and spectral validation</div>
           </div>
         </header>
 
         <section>
-          <h2>Objectives</h2>
+          <h2>3.1 Clustering of Impedance Patterns</h2>
           <p>
-            The exploratory phase seeks to understand how voltage sag, temperature spread, charge cycles, and
-            contextual telemetry interact. Findings here inform feature engineering, data cleaning, and early
-            hypotheses for model design.
+            Natural groupings of electrochemical behaviour were identified by clustering both CNN latent embeddings and
+            UMAP features. The following algorithms were benchmarked:
           </p>
-          <ul class="bullet-grid">
-            <li>Quantify normal vs abnormal ranges for key sensor readings.</li>
-            <li>Expose correlations between environmental conditions and performance.</li>
-            <li>Identify patterns that precede flagged anomalies in historical incidents.</li>
+          <ul>
+            <li><strong>K-Means:</strong> Partitioning clusters based on Euclidean impedance similarity.</li>
+            <li><strong>DBSCAN:</strong> Density-based clustering suitable for non-spherical manifolds.</li>
+            <li><strong>Gaussian Mixture Models (GMM):</strong> Probabilistic modelling of overlapping impedance states.</li>
           </ul>
+          <p>
+            Cluster validity was quantified using Silhouette, Davies–Bouldin, and Calinski–Harabasz indices. Distinct
+            clusters corresponded to characteristic impedance signatures, including mid-frequency semicircle
+            enlargement and low-frequency tail elongation, indicative of SEI growth and diffusion resistance increases.
+          </p>
         </section>
 
         <section>
-          <h2>Key visuals to develop</h2>
-          <div class="grid two-col">
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Temperature gradients over time</figcaption>
-            </figure>
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Voltage vs. current scatter</figcaption>
-            </figure>
-            <figure class="chart-placeholder">
-              <figcaption>Future heatmap: Feature correlations</figcaption>
-            </figure>
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Charge cycle clustering</figcaption>
-            </figure>
-          </div>
+          <h2>3.2 Optimal Frequency Regions for SOC Prediction</h2>
+          <p>
+            Analysis of cluster centroids revealed that mid-frequency regions between <strong>1–100 Hz</strong> delivered the
+            greatest discriminative power for State-of-Charge (SOC) and State-of-Health (SOH) differentiation. These
+            frequencies predominantly reflect charge-transfer resistance and interfacial kinetics, marking them as prime
+            candidates for reduced-order modelling and real-time impedance-based diagnostics.
+          </p>
         </section>
 
         <section>
-          <h2>Planned analyses</h2>
-          <div class="list-grid">
-            <div class="list-card">
-              <span class="badge">EDA-01</span>
-              <h3>Session profiling</h3>
-              <p>Compute descriptive statistics per driving or discharge session to detect outliers.</p>
-            </div>
-            <div class="list-card">
-              <span class="badge">EDA-02</span>
-              <h3>Temporal drift</h3>
-              <p>Rolling windows to observe gradual degradation and detect seasonality.</p>
-            </div>
-            <div class="list-card">
-              <span class="badge">EDA-03</span>
-              <h3>Multivariate clustering</h3>
-              <p>Dimensionality reduction (UMAP/TSNE) to highlight cell behaviour groupings.</p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2>Interim learnings</h2>
-          <div class="callout success">
-            <h3>Highlights so far</h3>
-            <ul>
-              <li>Cells with >5°C deviation from pack median show 3× higher anomaly scores.</li>
-              <li>Voltage sag events cluster around rapid charge ramps in colder climates.</li>
-              <li>Ambient humidity correlates with increased impedance variability.</li>
-            </ul>
-          </div>
+          <h2>3.3 Anomaly Detection</h2>
+          <p>
+            Spectral integrity was safeguarded using a dual-stage anomaly detection scheme:
+          </p>
+          <ul>
+            <li><strong>Isolation Forest:</strong> Detected spectra deviating from the learned impedance manifold.</li>
+            <li><strong>Autoencoder Reconstruction Error:</strong> Flagged physically inconsistent curves by thresholding reconstruction loss.</li>
+          </ul>
+          <p>
+            Combining these strategies ensured that only electrochemically valid spectra contributed to downstream
+            learning tasks and that aberrant measurements were escalated for manual review.
+          </p>
         </section>
 
         <nav class="page-nav">
           <div class="prev-link">
-            <a href="data.html">← Previous: 2 Data</a>
+            <a href="data.html">← Previous: 2 Exploratory Data Analysis</a>
           </div>
           <div class="next-link">
-            <a href="models.html">Next: 4 Modelling →</a>
+            <a href="models.html">Next: 4 Dataset Partitioning →</a>
           </div>
         </nav>
       </article>

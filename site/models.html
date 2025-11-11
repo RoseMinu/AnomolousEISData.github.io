@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Anomalous Battery Cells – 4 Modelling</title>
+  <title>EIS Framework – 4 Dataset Partitioning</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <link rel="stylesheet" href="../css/custom_style.css" />
 </head>
 
 <body class="nav-sidebar theme-light"
       data-page="models"
-      data-crumb="4 Modelling">
+      data-crumb="4 Dataset Partitioning and Evaluation Metrics">
 
   <div id="site-header-placeholder"></div>
 
@@ -19,106 +19,76 @@
     <main id="content">
       <article class="article">
         <header class="article-header">
-          <h1>Building anomaly detection models</h1>
+          <h1>Page 4 – Dataset Partitioning and Evaluation Metrics</h1>
           <div class="article-meta">
-            <div><strong>Experiment tracker:</strong> MLflow workspace #42</div>
-            <div><strong>Validation window:</strong> Jan–Mar 2025</div>
+            <div><strong>Training regime:</strong> Stratified impedance spectra</div>
+            <div><strong>Assessment focus:</strong> Clustering validity &amp; anomaly fidelity</div>
           </div>
         </header>
 
         <section>
-          <h2>Strategy</h2>
+          <h2>4.1 Dataset Splitting</h2>
           <p>
-            We layer statistical heuristics with machine learning models to capture both interpretable thresholds and
-            complex multivariate behaviour. The stack is designed for transparency so operations teams can trace why a
-            cell was flagged.
+            The EIS dataset was partitioned into training, validation, and test cohorts to support reproducible
+            experimentation and reliable generalisation assessment. Splits were stratified across frequency ranges,
+            ensuring balanced representation from low-, mid-, and high-frequency domains.
           </p>
           <div class="grid three-col">
-            <div class="card">
-              <h3>Baselines</h3>
-              <p>EWMA control limits and z-score rules establish immediate guardrails.</p>
+            <div class="stat-card">
+              <span class="stat-value">70%</span>
+              <span class="stat-label">Training set</span>
+              <p>Used for fitting dimensionality reduction, clustering, and anomaly models.</p>
             </div>
-            <div class="card">
-              <h3>Machine learning</h3>
-              <p>LSTM autoencoders and isolation forests compare residuals across sensors.</p>
+            <div class="stat-card">
+              <span class="stat-value">15%</span>
+              <span class="stat-label">Validation set</span>
+              <p>Supports hyperparameter tuning and anomaly threshold calibration.</p>
             </div>
-            <div class="card">
-              <h3>Explainability</h3>
-              <p>SHAP summaries and counterfactuals provide actionable narratives.</p>
+            <div class="stat-card">
+              <span class="stat-value">15%</span>
+              <span class="stat-label">Test set</span>
+              <p>Reserved for final evaluation of clustering robustness and detection recall.</p>
             </div>
           </div>
         </section>
 
         <section>
-          <h2>Pipeline architecture</h2>
-          <div class="grid two-col">
-            <figure class="chart-placeholder">
-              <figcaption>Future diagram: Feature engineering workflow</figcaption>
-            </figure>
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Model comparison (AUC / F1)</figcaption>
-            </figure>
-          </div>
-          <p>
-            Each candidate model is evaluated in weekly batches with stratified sampling across pack families. We track
-            precision at top-k anomalies alongside recall of historic failure events to balance efficiency and safety.
-          </p>
-        </section>
-
-        <section>
-          <h2>Experiment backlog</h2>
-          <div class="table-wrapper">
-            <table class="data-table compact">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Hypothesis</th>
-                  <th>Status</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>EXP-101</td>
-                  <td>Autoencoder with dropout regularisation reduces false positives</td>
-                  <td>Running</td>
-                  <td>Monitoring reconstruction error stability</td>
-                </tr>
-                <tr>
-                  <td>EXP-088</td>
-                  <td>Graph neural network improves cross-pack contextual signals</td>
-                  <td>Planned</td>
-                  <td>Requires topology metadata ingestion</td>
-                </tr>
-                <tr>
-                  <td>EXP-076</td>
-                  <td>Hybrid rule + ML ensemble matches service team priorities</td>
-                  <td>Review</td>
-                  <td>Awaiting business stakeholder feedback</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section>
-          <h2>Deployment considerations</h2>
-          <div class="callout warning">
-            <h3>Things we are validating</h3>
-            <ul>
-              <li>Latency impact of on-device inference vs. cloud batch scoring.</li>
-              <li>Fallback rules when sensors go offline or drift beyond training ranges.</li>
-              <li>Alert fatigue mitigation through adaptive thresholds.</li>
-            </ul>
+          <h2>4.2 Evaluation Metrics</h2>
+          <div class="list-grid">
+            <div class="list-card">
+              <span class="badge">(a)</span>
+              <h3>Clustering Metrics</h3>
+              <ul>
+                <li><strong>Silhouette Score (S):</strong> Measures cluster cohesion and separation.</li>
+                <li><strong>Davies–Bouldin Index (DBI):</strong> Lower values indicate better cluster distinctness.</li>
+                <li><strong>Calinski–Harabasz Index (CHI):</strong> Evaluates the ratio of inter- to intra-cluster variance.</li>
+              </ul>
+            </div>
+            <div class="list-card">
+              <span class="badge">(b)</span>
+              <h3>Autoencoder Performance</h3>
+              <ul>
+                <li><strong>Mean Squared Reconstruction Error (MSE):</strong> Quantifies reconstruction fidelity.</li>
+                <li><strong>Latent Space Variance:</strong> Measures information compactness and diversity.</li>
+              </ul>
+            </div>
+            <div class="list-card">
+              <span class="badge">(c)</span>
+              <h3>Anomaly Detection</h3>
+              <ul>
+                <li><strong>Precision–Recall (PR) &amp; F1 Score:</strong> Assess accuracy in identifying anomalous spectra.</li>
+                <li><strong>ROC–AUC:</strong> Quantifies separability between normal and abnormal impedance responses.</li>
+              </ul>
+            </div>
           </div>
         </section>
 
         <nav class="page-nav">
           <div class="prev-link">
-            <a href="eda.html">← Previous: 3 Exploratory Data Analysis</a>
+            <a href="eda.html">← Previous: 3 Clustering and Anomaly Detection</a>
           </div>
           <div class="next-link">
-            <a href="results.html">Next: 5 Results →</a>
+            <a href="results.html">Next: 5 Summary and Future Work →</a>
           </div>
         </nav>
       </article>
