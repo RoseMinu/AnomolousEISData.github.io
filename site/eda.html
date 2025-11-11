@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Anomalous Battery Cells – 3 Exploratory Data Analysis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <link rel="stylesheet" href="../css/custom_style.css" />
+</head>
+
+<body class="nav-sidebar theme-light" data-page="eda" data-crumb="3 Exploratory Data Analysis">
+  <div id="site-header-placeholder"></div>
+
+  <div id="page-layout">
+    <div id="sidebar-placeholder"></div>
+
+    <main id="content">
+      <article class="article">
+        <header class="article-header">
+          <h1>Exploratory Data Analysis</h1>
+          <div class="article-meta">
+            <div><strong>Notebook:</strong> <code>notebooks/02_eda.ipynb</code></div>
+            <div><strong>Last updated:</strong> 2024-06-05</div>
+          </div>
+        </header>
+
+        <section class="content-section">
+          <h2>SOC-dependent behaviour</h2>
+          <p>
+            Start by plotting the real versus imaginary impedance for each SOC. Healthy cells show a tight clustering of semicircles whose size
+            decreases as SOC increases. Deviations at 40% and 60% SOC correlate strongly with later rate-test underperformance.
+          </p>
+          <ul>
+            <li>Use <code>plot_impedance_grid(df, by="soc")</code> to visualise Nyquist plots across charge levels.</li>
+            <li>Normalise the axes to highlight cells with abnormally large high-frequency resistance.</li>
+            <li>Track the centroid shift for each lot to quantify drift after formation.</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>Lot-level comparisons</h2>
+          <p>
+            Box plots of key engineered features by lot quickly reveal manufacturing drift. The <code>hf_resistance_mohm</code> metric should stay within
+            ±8% of the fleet median. Anything outside this window is automatically escalated to operations.
+          </p>
+          <div class="callout">
+            <strong>Tip</strong>
+            Pair the box plots with a heatmap of Pearson correlations between lots and impedance features. Divergent patterns often stem from
+            electrolyte fill deviations during stacking.
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Label validation</h2>
+          <p>
+            Before training an anomaly detector, confirm that historical failure labels align with measurable electrical differences. The
+            <code>validate_labels()</code> helper cross-checks warranty returns against the impedance archive and generates summary metrics such as:
+          </p>
+          <div class="metric-grid">
+            <div class="metric-card">
+              <h4>Return coverage</h4>
+              <div class="metric-value">92%</div>
+              <p>of known field failures have matching impedance sweeps.</p>
+            </div>
+            <div class="metric-card">
+              <h4>Signal-to-noise</h4>
+              <div class="metric-value">4.8×</div>
+              <p>Separation between anomalous and nominal cells on the top principal component.</p>
+            </div>
+            <div class="metric-card">
+              <h4>Drift monitor</h4>
+              <div class="metric-value">0.7%</div>
+              <p>Monthly change in impedance centroid distance across production lots.</p>
+            </div>
+          </div>
+        </section>
+
+        <nav class="page-nav">
+          <div class="prev-link">
+            <a href="data.html">← Back: 2 Data</a>
+          </div>
+          <div class="next-link">
+            <a href="models.html">Next: 4 Modelling →</a>
+          </div>
+        </nav>
+      </article>
+    </main>
+
+    <aside id="page-toc">
+      <div class="toc-box">
+        <h2>On this page</h2>
+        <ul id="toc-list"></ul>
+      </div>
+    </aside>
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <script src="script.js"></script>
+</body>
+</html>

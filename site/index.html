@@ -7,36 +7,92 @@
   <link rel="stylesheet" href="../css/custom_style.css" />
 </head>
 
-<body class="nav-sidebar theme-light"
-      data-page="intro"
-      data-crumb="1 Introduction">
-
-  <!-- shared header goes here -->
+<body class="nav-sidebar theme-light" data-page="intro" data-crumb="1 Introduction">
   <div id="site-header-placeholder"></div>
 
   <div id="page-layout">
-    <!-- shared sidebar -->
     <div id="sidebar-placeholder"></div>
 
-    <!-- main content -->
     <main id="content">
       <article class="article">
         <header class="article-header">
           <h1>Detecting Anomalous Battery Cells</h1>
           <div class="article-meta">
-            <div><strong>Author:</strong> Your Name</div>
-            <div><strong>Last updated:</strong> 2025-11-10</div>
+            <div><strong>Author:</strong> Anomalous Cells Team</div>
+            <div><strong>Last updated:</strong> 2024-06-05</div>
           </div>
         </header>
 
-        <section>
-          <h2>Introduction</h2>
-          <p>… your intro text …</p>
+        <section class="content-section">
+          <div class="callout">
+            <strong>Project mission</strong>
+            Build a transparent workflow for flagging out-of-family battery cells using electrochemical impedance spectroscopy (EIS)
+            data collected under rate capability testing. Each page in this guide walks through a reproducible analysis pipeline you can
+            adapt for new cohorts of cells.
+          </div>
+          <p>
+            Large fleets of advanced batteries are only as reliable as the rarest cell in the pack. By combining statistical analysis with
+            interpretable models, we can surface subtle electrical signatures that reveal latent manufacturing defects before they cascade
+            into safety or warranty events. This microsite documents our reference implementation and the rationale behind key design choices.
+          </p>
         </section>
 
-        <section>
-          <h2>Outline</h2>
-          <p>… outline text …</p>
+        <section class="content-section">
+          <h2>What you'll find here</h2>
+          <ul>
+            <li><strong>Data specification:</strong> File formats, metadata expectations, and recommended feature engineering for impedance spectra.</li>
+            <li><strong>Exploratory analysis:</strong> Visual patterns that distinguish nominal and anomalous cells across state-of-charge sweeps.</li>
+            <li><strong>Model library:</strong> Baseline anomaly detectors and guidance on tuning thresholds for production.</li>
+            <li><strong>Reporting:</strong> Interpreting results, quantifying risk, and communicating findings with stakeholders.</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>Repository structure</h2>
+          <p>
+            The GitHub repository is organised so you can quickly plug in new datasets or extend the modelling stack. Use the navigation menu to
+            deep dive into each stage, or skim the quick start checklist below to run the entire workflow end to end.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Folder</th>
+                <th>Contents</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>data/</code></td>
+                <td>Raw and processed impedance measurements, metadata manifests, and quality flags.</td>
+                <td>Not versioned in Git; pull from secure storage before running notebooks.</td>
+              </tr>
+              <tr>
+                <td><code>notebooks/</code></td>
+                <td>Exploratory data analysis, feature creation, and model evaluation notebooks.</td>
+                <td>Execute in order; outputs feed directly into the modelling scripts.</td>
+              </tr>
+              <tr>
+                <td><code>src/</code></td>
+                <td>Reusable Python modules for preprocessing, feature extraction, and anomaly scoring.</td>
+                <td>Packaged to support both notebook experimentation and CLI workflows.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol>
+            <li>Clone the repository and create a dedicated Conda or virtual environment.</li>
+            <li>Download the latest impedance dataset bundle to <code>data/raw/</code> and run <code>make features</code> to generate training matrices.</li>
+            <li>Open the notebooks in ascending order to validate data health and identify candidate features.</li>
+            <li>Run <code>python -m src.models.evaluate</code> to train baseline detectors and export performance reports.</li>
+            <li>Review the <em>Results</em> page for guidance on interpreting anomaly scores before deploying thresholds.</li>
+          </ol>
+          <p>
+            Ready to dive deeper? Continue to the Data section to understand how we curate EIS measurements for reliable downstream analysis.
+          </p>
         </section>
 
         <nav class="page-nav">
@@ -48,7 +104,6 @@
       </article>
     </main>
 
-    <!-- right-hand TOC, auto-filled by JS -->
     <aside id="page-toc">
       <div class="toc-box">
         <h2>On this page</h2>
@@ -57,9 +112,7 @@
     </aside>
   </div>
 
-  <!-- shared footer -->
   <div id="footer-placeholder"></div>
-
   <script src="script.js"></script>
 </body>
 </html>

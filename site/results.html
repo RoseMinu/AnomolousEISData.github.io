@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Anomalous Battery Cells – 5 Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <link rel="stylesheet" href="../css/custom_style.css" />
+</head>
+
+<body class="nav-sidebar theme-light" data-page="results" data-crumb="5 Results">
+  <div id="site-header-placeholder"></div>
+
+  <div id="page-layout">
+    <div id="sidebar-placeholder"></div>
+
+    <main id="content">
+      <article class="article">
+        <header class="article-header">
+          <h1>Results &amp; Reporting</h1>
+          <div class="article-meta">
+            <div><strong>Report:</strong> <code>reports/anomaly_summary.html</code></div>
+            <div><strong>Last updated:</strong> 2024-06-05</div>
+          </div>
+        </header>
+
+        <section class="content-section">
+          <h2>Model performance snapshot</h2>
+          <p>
+            The ensemble achieves the following metrics on the most recent validation window (covering three production lots and 1,200 cells):
+          </p>
+          <div class="metric-grid">
+            <div class="metric-card">
+              <h4>Precision @ 95% recall</h4>
+              <div class="metric-value">81%</div>
+              <p>Alerts that progress to manual review remain highly actionable.</p>
+            </div>
+            <div class="metric-card">
+              <h4>False discovery rate</h4>
+              <div class="metric-value">19%</div>
+              <p>Below the 25% target agreed with manufacturing quality.</p>
+            </div>
+            <div class="metric-card">
+              <h4>Time-to-detection</h4>
+              <div class="metric-value">2.4 d</div>
+              <p>Median delay between impedance sweep and alert notification.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Alert review workflow</h2>
+          <p>
+            Alerts are exported as a CSV digest and mirrored to the manufacturing execution system (MES). Quality engineers triage findings using
+            the following playbook:
+          </p>
+          <ol>
+            <li>Confirm the alerting detector and review SHAP summaries for top contributing features.</li>
+            <li>Cross-check with rate-test data and visualise Nyquist plots for the impacted cell.</li>
+            <li>Decide whether to scrap the unit, rerun the measurement, or escalate for design feedback.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>Communicating impact</h2>
+          <p>
+            Dashboards in <code>reports/</code> aggregate weekly statistics that quantify financial and operational impact. Highlight the following when
+            briefing stakeholders:
+          </p>
+          <ul>
+            <li><strong>Scrap avoidance:</strong> Number of packs prevented from shipment thanks to early anomaly detection.</li>
+            <li><strong>Process drift:</strong> Lots flagged for follow-up due to impedance centroid movement.</li>
+            <li><strong>Model health:</strong> Drift scores and retraining cadence to maintain trust in automated screening.</li>
+          </ul>
+        </section>
+
+        <nav class="page-nav">
+          <div class="prev-link">
+            <a href="models.html">← Back: 4 Modelling</a>
+          </div>
+          <div class="next-link">
+            <a href="about.html">Next: 6 About &amp; Contact →</a>
+          </div>
+        </nav>
+      </article>
+    </main>
+
+    <aside id="page-toc">
+      <div class="toc-box">
+        <h2>On this page</h2>
+        <ul id="toc-list"></ul>
+      </div>
+    </aside>
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <script src="script.js"></script>
+</body>
+</html>
