@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Anomalous Battery Cells – 2 Data</title>
+  <title>EIS Framework – 2 Exploratory Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <link rel="stylesheet" href="../css/custom_style.css" />
 </head>
 
 <body class="nav-sidebar theme-light"
       data-page="data"
-      data-crumb="2 Data">
+      data-crumb="2 Exploratory Data Analysis and Dimensionality Reduction">
 
   <div id="site-header-placeholder"></div>
 
@@ -19,123 +19,139 @@
     <main id="content">
       <article class="article">
         <header class="article-header">
-          <h1>Understanding the data foundations</h1>
+          <h1>Page 2 – Exploratory Data Analysis and Dimensionality Reduction</h1>
           <div class="article-meta">
-            <div><strong>Refresh cadence:</strong> Nightly ingest</div>
-            <div><strong>Records analysed:</strong> 4.8M cell intervals</div>
+            <div><strong>Focus:</strong> Impedance manifold interrogation</div>
+            <div><strong>Techniques:</strong> t-SNE, UMAP, CNN Autoencoder</div>
           </div>
         </header>
 
         <section>
-          <h2>Telemetry snapshot</h2>
+          <h2>2.1 Motivation</h2>
           <p>
-            Battery telemetry arrives from connected vehicles and stationary storage packs. Each record represents a
-            one-minute interval aligned to a specific pack, string, and cell identifier. Measurements are streamed
-            via secure MQTT brokers before landing in the analytics warehouse for modelling.
+            The impedance spectra (<strong>Z′, Z″, |Z|, θ, f</strong>) encode nonlinear electrochemical phenomena
+            associated with charge-transfer kinetics, double-layer capacitance, and ion diffusion. To uncover
+            intrinsic structure and identify electrochemically meaningful groupings, three distinct dimensionality
+            reduction approaches were explored: <strong>t-SNE</strong>, <strong>UMAP</strong>, and a <strong>CNN Autoencoder</strong>.
+            Each method targets interpretable, low-dimensional embeddings that retain both local and global information
+            from the five-dimensional impedance space.
           </p>
-          <div class="grid three-col">
-            <div class="stat-card">
-              <span class="stat-value">860</span>
-              <span class="stat-label">Active packs</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-value">12.4B</span>
-              <span class="stat-label">Sensor readings / month</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-value">18</span>
-              <span class="stat-label">Feature families</span>
-            </div>
-          </div>
         </section>
 
         <section>
-          <h2>Source systems</h2>
-          <div class="callout">
-            <h3>Acquisition flow</h3>
-            <p>
-              Raw telemetry is buffered on edge devices, validated for schema compliance, and forwarded to the
-              warehouse where derived aggregates such as rolling deltas and cell-to-pack ratios are computed.
-            </p>
-          </div>
+          <h2>2.2 Nonlinear Projection: t-SNE and UMAP</h2>
           <div class="grid two-col">
-            <figure class="chart-placeholder">
-              <figcaption>Future diagram: Data acquisition pipeline</figcaption>
-            </figure>
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Daily ingest volume</figcaption>
-            </figure>
+            <div>
+              <h3>t-distributed Stochastic Neighbor Embedding (t-SNE)</h3>
+              <p>
+                t-SNE performs probabilistic neighborhood embedding, emphasizing local structure preservation during
+                projection into two- or three-dimensional spaces. It enabled clear visualization of fine-scale
+                variations in impedance spectra and effectively grouped cells exhibiting similar internal resistance or
+                charge-transfer behavior.
+              </p>
+            </div>
+            <div>
+              <h3>Uniform Manifold Approximation and Projection (UMAP)</h3>
+              <p>
+                UMAP preserves both local and global topology of the data manifold. It produced smooth, continuous
+                embeddings that mapped transitions between low-frequency Warburg regions and high-frequency
+                semicircular arcs, corresponding to diffusion and charge-transfer processes respectively. UMAP captured
+                gradual electrochemical evolution across cell states, offering a more coherent global representation
+                than t-SNE.
+              </p>
+            </div>
           </div>
         </section>
 
         <section>
-          <h2>Feature catalogue</h2>
+          <h2>2.3 CNN Autoencoder for Feature Compression</h2>
           <p>
-            The table summarises the major feature groups we monitor. Placeholder values indicate where descriptive
-            statistics and data quality metrics will be inserted.
+            A one-dimensional Convolutional Neural Network (CNN) Autoencoder was developed to learn deep latent
+            representations directly from frequency-ordered impedance sequences (<strong>Z′, Z″, |Z|, θ</strong>). The
+            encoder uses sequential Conv1D and MaxPooling layers to compress spectra into a latent vector that captures
+            nonlinear dependencies among resistive and reactive elements. A symmetric Conv1D–UpSampling decoder
+            reconstructs the spectra, minimising Mean Squared Reconstruction Error (MSE) between the input and
+            reconstructed impedance.
+          </p>
+          <p>
+            This unsupervised learning framework enables feature compression without explicit manifold assumptions,
+            producing latent embeddings that are amenable to clustering, anomaly detection, and integration with
+            downstream predictive models.
+          </p>
+        </section>
+
+        <section>
+          <h2>2.4 Comparative Evaluation of Dimensionality Reduction Techniques</h2>
+          <p>
+            The three dimensionality reduction methods were systematically compared using quantitative and qualitative
+            criteria to determine their suitability for EIS analysis.
           </p>
           <div class="table-wrapper">
-            <table class="data-table">
+            <table>
               <thead>
                 <tr>
-                  <th>Feature family</th>
-                  <th>Examples</th>
-                  <th>Primary usage</th>
-                  <th>Notes</th>
+                  <th>Method</th>
+                  <th>Core Principle</th>
+                  <th>Preservation Type</th>
+                  <th>Advantages</th>
+                  <th>Limitations</th>
+                  <th>Best Application</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Voltage &amp; current</td>
-                  <td>V_cell, I_pack, ΔV rolling</td>
-                  <td>Baseline anomaly detection</td>
-                  <td>Calibrated every 500 cycles</td>
+                  <td>t-SNE</td>
+                  <td>Probabilistic neighborhood embedding</td>
+                  <td>Local</td>
+                  <td>Highlights subtle spectral variations</td>
+                  <td>Weak global continuity</td>
+                  <td>Localized cell-state mapping</td>
                 </tr>
                 <tr>
-                  <td>Thermal</td>
-                  <td>T_cell, T_surface, gradients</td>
-                  <td>Thermal runaway warnings</td>
-                  <td>Integrates HVAC controller data</td>
+                  <td>UMAP</td>
+                  <td>Graph-based manifold learning</td>
+                  <td>Local + Global</td>
+                  <td>Maintains manifold continuity</td>
+                  <td>Sensitive to hyperparameters</td>
+                  <td>Global electrochemical trends</td>
                 </tr>
                 <tr>
-                  <td>Health indicators</td>
-                  <td>State of charge, resistance</td>
-                  <td>Capacity fade tracking</td>
-                  <td>Requires pack age metadata</td>
-                </tr>
-                <tr>
-                  <td>Environmental</td>
-                  <td>Ambient temp, humidity</td>
-                  <td>External condition context</td>
-                  <td>Optional feed, 78% coverage</td>
+                  <td>CNN Autoencoder</td>
+                  <td>Deep nonlinear encoding</td>
+                  <td>Learned latent</td>
+                  <td>Robust and scalable; useful for ML integration</td>
+                  <td>Requires training and tuning</td>
+                  <td>Latent feature extraction, anomaly detection</td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </section>
-
-        <section>
-          <h2>Data quality checks</h2>
+          <h3>Selection Metrics</h3>
+          <ul>
+            <li><strong>Reconstruction Error (MSE)</strong> for CNN Autoencoder fidelity.</li>
+            <li><strong>Cluster Separability (Silhouette Score)</strong> to assess impedance clustering performance.</li>
+            <li><strong>Neighborhood Preservation (Trustworthiness &amp; Continuity)</strong> for t-SNE/UMAP manifold integrity.</li>
+            <li><strong>Visual Interpretability</strong> to confirm continuity across electrochemical states.</li>
+          </ul>
+          <h3>Findings</h3>
+          <ul>
+            <li><strong>t-SNE</strong> captured high-resolution local differences but failed to preserve global impedance evolution.</li>
+            <li><strong>UMAP</strong> provided a physically interpretable continuum from high to low frequencies.</li>
+            <li><strong>CNN Autoencoder</strong> achieved the lowest reconstruction error and most robust embeddings for subsequent learning.</li>
+          </ul>
           <p>
-            Automated monitors flag completeness, sensor drift, and out-of-range values. Heatmaps and missingness
-            charts below will be replaced with live visuals as analysis progresses.
+            CNN Autoencoder latent representations were selected as the primary feature space for clustering and
+            anomaly detection, while UMAP projections were retained for visual interpretability and state transition
+            mapping.
           </p>
-          <div class="grid two-col">
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Missing value heatmap</figcaption>
-            </figure>
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Sensor drift scores</figcaption>
-            </figure>
-          </div>
         </section>
 
         <nav class="page-nav">
           <div class="prev-link">
-            <a href="index.html">← Previous: 1 Introduction</a>
+            <a href="index.html">← Previous: 1 Data Preprocessing</a>
           </div>
           <div class="next-link">
-            <a href="eda.html">Next: 3 Exploratory Data Analysis →</a>
+            <a href="eda.html">Next: 3 Clustering and Anomaly Detection →</a>
           </div>
         </nav>
       </article>

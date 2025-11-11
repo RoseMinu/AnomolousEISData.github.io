@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Anomalous Battery Cells – 5 Results</title>
+  <title>EIS Framework – 5 Summary and Future Work</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <link rel="stylesheet" href="../css/custom_style.css" />
 </head>
 
 <body class="nav-sidebar theme-light"
       data-page="results"
-      data-crumb="5 Results">
+      data-crumb="5 Summary and Future Work">
 
   <div id="site-header-placeholder"></div>
 
@@ -19,93 +19,56 @@
     <main id="content">
       <article class="article">
         <header class="article-header">
-          <h1>Insights and next steps</h1>
+          <h1>Page 5 – Summary and Future Work</h1>
           <div class="article-meta">
-            <div><strong>Latest evaluation:</strong> 2025‑03‑08</div>
-            <div><strong>Reviewer:</strong> Safety Analytics Council</div>
+            <div><strong>Scope:</strong> EIS-driven anomaly detection framework</div>
+            <div><strong>Status:</strong> Ready for integration and publication</div>
           </div>
         </header>
 
         <section>
-          <h2>Performance snapshot</h2>
-          <div class="grid two-col">
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Precision / recall lift</figcaption>
-            </figure>
-            <figure class="chart-placeholder">
-              <figcaption>Future chart: Alert volume trend</figcaption>
-            </figure>
-          </div>
+          <h2>5.1 Summary</h2>
           <p>
-            Early experiments indicate a 41% improvement in precision at the top 5% of anomaly scores while keeping
-            recall within safety targets. Alert volume remains within operational capacity for the field support team.
+            This work presents a comprehensive, data-driven EIS analysis framework that spans acquisition, processing,
+            dimensionality reduction, and unsupervised evaluation of lithium-ion cell impedance spectra. The methodology
+            demonstrates that a reduced feature set focusing on impedance domain variables yields physically
+            interpretable and highly discriminative representations of cell behaviour.
           </p>
+          <ol>
+            <li>Standardised EIS data acquisition and preprocessing.</li>
+            <li>Normalised feature extraction from (<strong>Z′, Z″, |Z|, θ, f</strong>).</li>
+            <li>Dimensionality reduction using t-SNE, UMAP, and CNN Autoencoder embeddings.</li>
+            <li>Unsupervised clustering and anomaly detection of electrochemical patterns.</li>
+          </ol>
         </section>
 
         <section>
-          <h2>Key findings</h2>
+          <h2>5.2 Future Work</h2>
           <div class="list-grid">
             <div class="list-card">
-              <span class="badge">Insight 1</span>
-              <h3>Thermal gradients lead anomalies</h3>
-              <p>Temperature variance is the strongest lead indicator, preceding voltage anomalies by ~45 minutes.</p>
+              <span class="badge">Next Step 1</span>
+              <h3>Latent feature interpretation</h3>
+              <p>Correlate learned representations with ageing indicators such as charge-transfer resistance and diffusion impedance.</p>
             </div>
             <div class="list-card">
-              <span class="badge">Insight 2</span>
-              <h3>Charging behaviour matters</h3>
-              <p>Rapid charge sessions at low ambient temperatures drive most false positives in current baselines.</p>
+              <span class="badge">Next Step 2</span>
+              <h3>Temporal modelling</h3>
+              <p>Extend the framework to time-dependent EIS sequences using time-gated LSTM or Transformer architectures.</p>
             </div>
             <div class="list-card">
-              <span class="badge">Insight 3</span>
-              <h3>Explainability builds trust</h3>
-              <p>Service teams prefer SHAP narratives that point to specific sensor deviations per alert.</p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2>Readiness checklist</h2>
-          <ul class="checklist">
-            <li class="complete">📦 Data pipelines harden nightly refresh</li>
-            <li class="complete">🧪 Cross-pack validation scenarios executed</li>
-            <li class="pending">⚙️ Integrate alert feedback loop into service portal</li>
-            <li class="pending">📈 Automate live dashboards for operations</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>Roadmap</h2>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-marker"></div>
-              <div class="timeline-content">
-                <h3>Pilot deployment</h3>
-                <p>Launch in two regions with weekly review cadences.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-marker"></div>
-              <div class="timeline-content">
-                <h3>Feedback assimilation</h3>
-                <p>Fold service engineer annotations back into labelling pipeline.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-marker"></div>
-              <div class="timeline-content">
-                <h3>Scale-out</h3>
-                <p>Expand monitoring to stationary storage fleets with tailored thresholds.</p>
-              </div>
+              <span class="badge">Next Step 3</span>
+              <h3>Operational integration</h3>
+              <p>Fuse EIS embeddings with cycling performance data to enhance State-of-Health estimation and degradation prediction.</p>
             </div>
           </div>
         </section>
 
         <nav class="page-nav">
           <div class="prev-link">
-            <a href="models.html">← Previous: 4 Modelling</a>
+            <a href="models.html">← Previous: 4 Dataset Partitioning</a>
           </div>
           <div class="next-link">
-            <a href="about.html">Next: 6 About / Contact →</a>
+            <a href="about.html">Next: About / Contact →</a>
           </div>
         </nav>
       </article>
